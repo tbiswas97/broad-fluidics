@@ -26,7 +26,7 @@ for i = 1:6 %iterating through each well
                 pause(60)
         else
                 daq.washLines(wb);
-                break
+                pause(25)
         end
     end
 end
