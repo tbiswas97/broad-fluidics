@@ -16,7 +16,11 @@ classdef DAQ < handle
         function switchValve(self,varargin)
             signal = self.currentScan;
             nargin_wc = nargin - 1;
-            for i = 1:nargin_wc
+            i = 1;
+            while i <= nargin_wc
+                if varargin{i} == 0
+                    i = i + 1;
+                end
                 signal(4*i:(4*i)+3) = dec2mat(varargin{i});
             end
             signal (3) = 1;
@@ -26,6 +30,11 @@ classdef DAQ < handle
             obj.currentScan(1) = 5;
             obj.currentScan(3) = 0;
             outputSingleScan(obj.DAQSession,obj.currentScan);
+        end
+        function washLines(obj,wb)
+            obj.switchValve(wb,7);
+            obj.currentScan(1) = 5;
+            outputSingleScan(obj.DAQSession, obj.currentScan)
         end
         function startFlow(self,num,unit)
             if strcmp(unit,'mL/min')
